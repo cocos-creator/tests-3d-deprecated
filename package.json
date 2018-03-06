@@ -1,0 +1,15 @@
+{
+  "name": "tests-3d",
+  "version": "0.0.0",
+  "description": "test framework for engine-3d",
+  "main": "index.js",
+  "scripts": {
+    "server": "preview -p 8100 -e tests",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "preview-server": "^1.1.3"
+  }
+}
