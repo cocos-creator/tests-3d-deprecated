@@ -20,13 +20,14 @@
       right: 0;
     }
   </style>
-  
-  <script src="../dist/engine.dev.js"></script>
 </head>
 
 <body class="fit">
   <canvas id="canvas" tabindex="-1" class="fit"></canvas>
-  
+  <!-- <script src="../node_modules/lstats.js/dist/lstats.min.js"></script> -->
+  <script src="../dist/engine.dev.js"></script>
+  <!-- <script src="./dat.gui.js"></script>
+    <script src="./shell.js"></script> -->
   <script>
     // init app
     let app = new cc.App(document.getElementById('canvas'));
@@ -37,20 +38,13 @@
     camEnt.lookAt(vec3.new(0, 0, 0));
     camEnt.addComp('Camera');
 
-    let entity = app.createEntity('sliced-sprite');
     let screen = app.createEntity('screen');
     screen.addComp('Screen');
-
-    entity.setParent(screen);
-    let image = entity.addComp('Image');
-    image.setSize(200, 50);
-    image.setAnchors(0.2, 0.2, 0.8, 0.8);
-    image.type = 'sliced';
 
     app.resize();
 
     // load level
-    let baseUrl = '../out/spec-script-sprite';
+    let baseUrl = '../out/spec-script-material';
     cc.resl({
       manifest: {
         assetInfos: {
@@ -62,7 +56,7 @@
         scene: {
           type: 'text',
           parser: JSON.parse,
-          src: `${baseUrl}/spec-script-sprite.json`
+          src: `${baseUrl}/spec-script-material.json`
         },
       },
 
@@ -82,19 +76,23 @@
           app.assets.registerAsset(uuid, info);
         }
 
-        app.assets.loadUrls('texture', {
-          json: `${baseUrl}/sprites/${uuid}.json`,
-          image: `${baseUrl}/sprites/${uuid}.png`,
-        }, (err, texture) => {
-          let sprite = texture.sprites['dark-gray-angle-32x32'];
-          sprite.left = 1;
-          sprite.top = 1;
-          sprite.right = 1;
-          sprite.bottom = 1;
-          sprite.commit();
+        let spec = app.createEntity('spec-test');
+        let spec_comp = spec.addComp('Model');
 
-          image.sprite = sprite;
-        });
+        app.assets.load(uuid, (err, asset) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          spec_comp.material = asset;
+        })
+
+        let meshBox = cc.utils.createMesh(app, cc.primitives.box(1, 1, 1, {
+          widthSegments: 1,
+          heightSegments: 1,
+          lengthSegments: 1,
+        }));
+        spec_comp.mesh = meshBox;
       }
     });
 
