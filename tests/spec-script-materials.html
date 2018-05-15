@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>spec-button</title>
+  <title>spec-bitmap-font</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
   <style>
@@ -28,33 +28,24 @@
   <script>
     // init app
     let app = new cc.App(document.getElementById('canvas'));
-    const { vec3 }  = cc.math;
+    const { vec3 } = cc.math;
 
     app.resize();
 
-    class RefsComponent extends cc.ScriptComponent {
+    class AssetComponent extends cc.ScriptComponent {
 
-      onInit () {
-        console.log(this.entityA);
-        console.log(this.entityB);
+      onInit() {
+        console.log("AssetComponent onInit");
       }
     }
 
-    RefsComponent.schema = {
-      entityA: {
-        type: 'entity'
-      },
-      entityB: {
-        type: 'entity'
-      }
-    };
-    app.registerClass('Refs', RefsComponent);
+    app.registerClass('Asset', AssetComponent);
 
     load();
 
     // load level
     function load() {
-      let baseUrl = '../out/spec-script-refs';
+      let baseUrl = '../out/spec-script-materials';
 
       cc.resl({
         manifest: {
@@ -67,7 +58,7 @@
           scene: {
             type: 'text',
             parser: JSON.parse,
-            src: `${baseUrl}/spec-script-refs.json`
+            src: `${baseUrl}/spec-script-materials.json`
           },
         },
 
@@ -94,7 +85,7 @@
               app.loadLevel(level);
 
               // let camEnt = app.createEntity('camera');
-              // vec3.set(camEnt.lpos, 3, 5, 15);
+              // vec3.set(camEnt.lpos, 10, 10, 10);
               // camEnt.lookAt(vec3.new(0, 0, 0));
               // camEnt.addComp('Camera');
             }
