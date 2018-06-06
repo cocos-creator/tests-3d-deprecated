@@ -49,7 +49,7 @@
           scene: {
             type: 'text',
             parser: JSON.parse,
-            src: `${baseUrl}/spec-zed.json`
+            src: `${baseUrl}/spec-audio.json`
           },
         },
 
@@ -74,16 +74,20 @@
             sceneJson,
             (err, level) => {
               app.loadLevel(level);
-              let ent = app.find('zed');
-              let anim = ent.getComp('Animation');
-              let anim_name = [];
-              anim_name = anim.clips[Math.floor(Math.random() * anim.clips.length)]._name;
-              anim.play(anim_name);
+              let ent = app.find('1');
+              let as = ent.getComp('AudioSource');
+              // as.play(); // playOnAwake from schema
+              setTimeout(function(){ as.volume = 0.5; }, 10000);
+              setTimeout(function(){ as.volume = 0.1; }, 17000);
+              setTimeout(function(){ as.stop(); }, 24000);
 
-              // let camEnt = app.createEntity('camera');
-              // vec3.set(camEnt.lpos, 10, 10, 10);
-              // camEnt.lookAt(vec3.new(0, 0, 0));
-              // camEnt.addComp('Camera');
+              let ent2 = app.find('2');
+              let as2 = ent2.getComp('AudioSource');
+              // as2.loop = true; // loop from schema
+              as2.volume = 0.5;
+              setTimeout(function(){ as2.play(); }, 5000);
+              setTimeout(function(){ as2.volume = 0.75; }, 10000);
+              setTimeout(function(){ as2.volume = 1; }, 20000);
             }
           );
         }
