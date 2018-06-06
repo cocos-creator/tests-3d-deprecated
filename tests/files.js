@@ -52,5 +52,6 @@ var files = {
 		"spec-toggle-and-group",
 		"spec-grid-layout",
 		"spec-scroll-view",
+		"spec-slider",
 	]
 };
