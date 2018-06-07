@@ -54,5 +54,6 @@ var files = {
 		"spec-scroll-bar",
 		"spec-scroll-view",
 		"spec-slider",
+		"spec-edit-box",
 	]
 };
