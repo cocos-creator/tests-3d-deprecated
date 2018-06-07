@@ -46,5 +46,6 @@ var files = {
 		"spec-screen-scaler-match",
 		"spec-screen-scaler-expand",
 		"spec-screen-scaler-shrink",
+		"spec-toggle-and-group",
 	]
 };
