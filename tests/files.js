@@ -41,6 +41,10 @@ var files = {
 		"spec-mask-same-level",
 		"spec-opentype-font",
 		"spec-simple",
-		"spec-system-font"
+		"spec-system-font",
+		"spec-screen-scaler-none",
+		"spec-screen-scaler-match",
+		"spec-screen-scaler-expand",
+		"spec-screen-scaler-shrink",
 	]
 };
