@@ -2,6 +2,9 @@ var files = {
 	"animation": [
 		"spec-zed"
 	],
+  "audio": [
+    "spec-audio"
+  ],
 	"enabled": [
 		"spec-comp-disabled",
 		"spec-entity-disabled",

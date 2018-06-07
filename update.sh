@@ -1,1 +1,1 @@
-cp -r ../engine-3d/dist/ ./dist/
+cp -r ../engine-3d/dist/ .
