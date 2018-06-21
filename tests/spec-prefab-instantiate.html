@@ -26,12 +26,25 @@
   <canvas id="canvas" tabindex="-1" class="fit"></canvas>
   <script src="../dist/engine.dev.js"></script>
   <script>
-    class PrefabRef extends cc.Component {
-    };
-
     // init app
     let app = new cc.App(document.getElementById('canvas'));
-    const { vec3 }  = cc.math;
+    const { vec3 } = cc.math;
+
+    class PrefabRef extends cc.Component {
+      onInit(){
+        if (this._prefab) {
+          console.log('load ' + this._prefab + ' success ');
+        }
+
+        this._prefab.instantiate();
+      }
+    };
+
+    PrefabRef.schema = {
+      prefab: {
+        type: 'asset',
+      }
+    }
 
     app.registerClass('PrefabRef', PrefabRef);
 
@@ -79,17 +92,13 @@
             sceneJson,
             (err, level) => {
               app.loadLevel(level);
-              let uuid = '6f35ca016ef9541eda958df9355fc946';
+              // let uuid = '6f35ca016ef9541eda958df9355fc946';
 
-              let prefab = app.assets.loadUrls('prefab', {
-                json: `${baseUrl}/prefabs/${uuid}.json`,
-              }, (err, prefab) => {
-                let ent = prefab.instantiate();
-                ent.setParent(app.activeLevel);
-
-                // FIXME: HACK:
-                app._newEntities.push(ent);
-              });
+              // let prefab = app.assets.loadUrls('prefab', {
+              //   json: `${baseUrl}/prefabs/${uuid}.json`,
+              // }, (err, prefab) => {
+              //   let ent = prefab.instantiate();
+              // });
             }
           );
         }
