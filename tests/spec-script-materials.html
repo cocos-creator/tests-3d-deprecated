@@ -36,6 +36,19 @@
 
       onInit() {
         console.log("AssetComponent onInit");
+        console.log('load material  ' + (this._test && this._test.name));
+        let ent = app.createEntity('ent');
+        let modelComp = ent.addComp('Model');
+        let mesh = app.assets.get('builtin-cube');
+        let mats = [this._test];
+        modelComp.mesh = mesh;
+        modelComp.materials = mats;
+      }
+    }
+
+    AssetComponent.schema = {
+      test: {
+        type: 'asset',
       }
     }
 
