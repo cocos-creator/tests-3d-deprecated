@@ -27,11 +27,11 @@
   <!-- <script src="../node_modules/lstats.js/dist/lstats.min.js"></script> -->
   <script src="../dist/engine.dev.js"></script>
   <!-- <script src="./dat.gui.js"></script>
-    <script src="./shell.js"></script> -->
+      <script src="./shell.js"></script> -->
   <script>
     // init app
     let app = new cc.App(document.getElementById('canvas'));
-    const { vec3 }  = cc.math;
+    const { vec3 } = cc.math;
 
     let camEnt = app.createEntity('camera');
     vec3.set(camEnt.lpos, 10, 10, 10);
@@ -42,6 +42,33 @@
     screen.addComp('Screen');
 
     app.resize();
+
+    class AssetComponent extends cc.ScriptComponent {
+      onInit() {
+        if (this._test) {
+          console.log('load mesh success!');
+        }
+
+        let ent = app.createEntity('ent');
+        vec3.set(ent.lrot,0,0.5,0);
+        let modelComp = ent.addComp('Model');
+        let mesh = this._test;
+        let mat = app.assets.get('builtin-material-sprite');
+        mat.setProperty('mainTexture', app.assets.get('default-texture'));
+        mat.effect = app.assets.get('builtin-effect-unlit');
+        let mats = [mat];
+        modelComp.mesh = mesh;
+        modelComp.materials = mats;
+      }
+    }
+
+    AssetComponent.schema = {
+      test: {
+        type: 'asset',
+      }
+    }
+
+    app.registerClass('Asset', AssetComponent);
 
     // load level
     let baseUrl = '../out';
@@ -76,33 +103,41 @@
           app.assets.registerAsset(uuid, info);
         }
 
-        if (info.urls.mesh) {
-          let spec = app.createEntity('spec-test');
-          let spec_comp = spec.addComp('Model');
-          app.assets.load(uuid, (err, asset) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
-            spec_comp.mesh = asset;
+        cc.utils.parseLevel(
+          app,
+          sceneJson,
+          (err, level) => {
+            app.loadLevel(level);
+          }
+        );
 
-          })
-          let material = new cc.Material();
-          material.effect = app.assets.get('builtin-effect-unlit');
-          material.setProperty('roughness', 0.5);
-          material.setProperty('metallic', 1);
-          spec_comp.material = material;
-          vec3.set(spec.lpos,
-            0,//randomRange(-20, 20),
-            0,//randomRange(0, 10),
-            0//randomRange(0, 20)
-          );
-          vec3.set(spec.lscale,
-            5,//randomRange(1, 5),
-            5,//randomRange(1, 5),
-            5//randomRange(1, 5)
-          );
-        }
+        // if (info.urls.mesh) {
+        //   let spec = app.createEntity('spec-test');
+        //   let spec_comp = spec.addComp('Model');
+        //   app.assets.load(uuid, (err, asset) => {
+        //     if (err) {
+        //       console.error(err);
+        //       return;
+        //     }
+        //     spec_comp.mesh = asset;
+
+        //   })
+        //   let material = new cc.Material();
+        //   material.effect = app.assets.get('builtin-effect-unlit');
+        //   material.setProperty('roughness', 0.5);
+        //   material.setProperty('metallic', 1);
+        //   spec_comp.material = material;
+        //   vec3.set(spec.lpos,
+        //     0,//randomRange(-20, 20),
+        //     0,//randomRange(0, 10),
+        //     0//randomRange(0, 20)
+        //   );
+        //   vec3.set(spec.lscale,
+        //     5,//randomRange(1, 5),
+        //     5,//randomRange(1, 5),
+        //     5//randomRange(1, 5)
+        //   );
+        // }
       }
     });
 
