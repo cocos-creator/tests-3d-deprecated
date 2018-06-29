@@ -19,16 +19,26 @@
       left: 0;
       right: 0;
     }
+
+    .dgui {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+    }
   </style>
 </head>
 
 <body class="fit">
   <canvas id="canvas" tabindex="-1" class="fit"></canvas>
   <script src="../dist/engine.dev.js"></script>
+  <script src="./dat.gui.js"></script>
   <script>
     // init app
     let app = new cc.App(document.getElementById('canvas'));
     const { vec3 } = cc.math;
+
+    let dgui = new dat.GUI({ width: 270 });
+    dgui.domElement.classList.add('dgui');
 
     app.resize();
 
@@ -74,11 +84,70 @@
             sceneJson,
             (err, level) => {
               app.loadLevel(level);
+              let gridLayout = app.activeLevel.getCompsInChildren('GridLayout')[0];
+              let options = {
+                paddingLeft: gridLayout.paddingLeft,
+                paddingRight: gridLayout.paddingRight,
+                paddingBottom: gridLayout.paddingBottom,
+                paddingTop: gridLayout.paddingTop,
+                spacingX: gridLayout.spacingX,
+                spacingY: gridLayout.spacingY,
+                cellWidth: gridLayout.cellWidth,
+                cellHeight: gridLayout.cellHeight,
+                startCorner: gridLayout.corner,
+                startAxis: gridLayout.axisDirection,
+                childAlignment: gridLayout.childAlign,
+                constraint: gridLayout.constraint,
+                value: gridLayout.constraintCount,
+              };
 
-              // let camEnt = app.createEntity('camera');
-              // vec3.set(camEnt.lpos, 3, 5, 15);
-              // camEnt.lookAt(vec3.new(0, 0, 0));
-              // camEnt.addComp('Camera');
+              dgui.add(options, 'paddingLeft').onFinishChange(() => {
+                gridLayout.paddingLeft = options.paddingLeft;
+              });
+
+              dgui.add(options, 'paddingRight').onFinishChange(() => {
+                gridLayout.paddingRight = options.paddingRight;
+              });
+
+              dgui.add(options, 'paddingBottom').onFinishChange(() => {
+                gridLayout.paddingBottom = options.paddingBottom;
+              });
+
+              dgui.add(options, 'paddingTop').onFinishChange(() => {
+                gridLayout.paddingTop = options.paddingTop;
+              });
+
+              dgui.add(options, 'spacingX').onFinishChange(() => {
+                gridLayout.spacingX = options.spacingX;
+              });
+
+              dgui.add(options, 'spacingY').onFinishChange(() => {
+                gridLayout.spacingY = options.spacingY;
+              });
+
+              dgui.add(options, 'cellWidth').onFinishChange(() => {
+                gridLayout.cellWidth = options.cellWidth;
+              });
+
+              dgui.add(options, 'cellHeight').onFinishChange(() => {
+                gridLayout.cellHeight = options.cellHeight;
+              });
+
+              dgui.add(options, 'startCorner').onFinishChange(() => {
+                gridLayout.corner = options.startCorner;
+              });
+
+              dgui.add(options, 'childAlignment').onFinishChange(() => {
+                gridLayout.childAlign = options.childAlignment;
+              });
+
+              dgui.add(options, 'constraint').onFinishChange(() => {
+                gridLayout.constraint = options.constraint;
+              });
+
+              dgui.add(options, 'value').onFinishChange(() => {
+                gridLayout.constraintCount = options.value;
+              });
             }
           );
         }
