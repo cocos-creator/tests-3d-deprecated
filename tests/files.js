@@ -53,5 +53,6 @@ var files = {
 		"spec-grid-layout",
 		"spec-scroll-bar",
 		"spec-scroll-view",
+		"spec-slider",
 	]
 };
