@@ -51,6 +51,7 @@ var files = {
 		"spec-screen-scaler-shrink",
 		"spec-toggle-and-group",
 		"spec-grid-layout",
+		"spec-scroll-bar",
 		"spec-scroll-view",
 	]
 };
